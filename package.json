@@ -1,0 +1,26 @@
+{
+  "name": "02-desafio",
+  "version": "1.0.0",
+  "description": "* ```npm install fastify``` * ```npm init -y```",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "lint": "eslint src --ext .ts --fix",
+    "knex": "node --no-warnings --loader tsx ./node_modules/knex/bin/cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.22.2",
+    "knex": "^2.5.1",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
+    "@types/node": "^20.6.0",
+    "eslint": "^8.49.0",
+    "tsx": "^3.12.8",
+    "typescript": "^5.2.2"
+  }
+}
