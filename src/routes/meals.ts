@@ -83,14 +83,18 @@ export async function mealsRoutes(app: FastifyInstance){
     },
     async (request, reply) =>{
         const getMealParamsSchema = z.object({
-            id: z.string().uuid(),
+            id: z.string().uuid()
+        })
+
+        const createMealBodySchema = z.object({
             name: z.string(),
             description: z.string(),
             included: z.boolean()
         })
 
         const { id } = getMealParamsSchema.parse(request.params)
-        const { name, description, included } = 
+        
+        const { name, description, included } = createMealBodySchema.parse(request.body)
 
         await knex('meals')
         .update({
@@ -101,7 +105,8 @@ export async function mealsRoutes(app: FastifyInstance){
         .where('id', id)
 
         return reply.status(201).send()
-    })
+})
+
 
 
 
