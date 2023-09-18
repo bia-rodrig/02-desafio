@@ -89,7 +89,8 @@ export async function mealsRoutes(app: FastifyInstance){
             included: z.boolean()
         })
 
-        const { id, name, description, included } = getMealParamsSchema.parse(request.params)
+        const { id } = getMealParamsSchema.parse(request.params)
+        const { name, description, included } = 
 
         await knex('meals')
         .update({
