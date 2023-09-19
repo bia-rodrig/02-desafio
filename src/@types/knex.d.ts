@@ -8,7 +8,8 @@ declare module 'knex/types/tables'{
             description: string,
             created_at: string,
             included: boolean,
-            user_id?: string
+            user_id?: string,
+            updated_at?: string
         }
     }
 }

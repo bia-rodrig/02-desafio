@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto'
 
 import { knex } from '../database'
 import { checkUserIdExists } from '../middlewares/check-user-id-exists'
+//import {format} from 'date-fns'
 
 export async function mealsRoutes(app: FastifyInstance){
     app.addHook('preHandler', async (request, reply) => {
@@ -89,29 +90,27 @@ export async function mealsRoutes(app: FastifyInstance){
         const createMealBodySchema = z.object({
             name: z.string(),
             description: z.string(),
-            included: z.boolean()
+            included: z.boolean(),
         })
 
         const { id } = getMealParamsSchema.parse(request.params)
         
         const { name, description, included } = createMealBodySchema.parse(request.body)
 
+        //const currentDate = new Date();
+        //const formattedDate = format(currentDate, 'dd-MM-yy HH:mm:ss');
+
         await knex('meals')
         .update({
             name,
             description,
-            included
+            included,
+            updated_at: knex.fn.now()
         })
         .where('id', id)
 
         return reply.status(201).send()
 })
-
-
-
-
-
-
 
     // remove uma refeição
     app.delete('/:id',
