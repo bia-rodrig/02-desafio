@@ -110,7 +110,7 @@ export async function mealsRoutes(app: FastifyInstance){
         .where('id', id)
 
         return reply.status(201).send()
-})
+    })
 
     // remove uma refeição
     app.delete('/:id',
@@ -130,6 +130,11 @@ export async function mealsRoutes(app: FastifyInstance){
         console.log(meal)
 
         return reply.status(201).send()
+    })
+
+    //pega a metrica do usuário
+    app.get('/metric', async(request) =>{
+        console.log('Métrica')
     })
 
 }
