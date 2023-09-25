@@ -54,7 +54,6 @@ export async function mealsRoutes(app: FastifyInstance){
         const { name, description, included } = createMealBodySchema.parse(request.body)
 
         let userId = request.cookies.sessionId
-        console.log(userId)
 
         if (!userId){
             userId = randomUUID()
@@ -126,15 +125,51 @@ export async function mealsRoutes(app: FastifyInstance){
 
         const meal = await knex('meals').where('id', id).del()
 
-        console.log('MEAL: ')
-        console.log(meal)
-
         return reply.status(201).send()
     })
 
     //pega a metrica do usuário
-    app.get('/metric', async(request) =>{
-        console.log('Métrica')
+    app.get('/metric', 
+    {
+        preHandler: [checkUserIdExists]
+    },
+    async(request) =>{
+        const userId = request.cookies.sessionId
+
+        const allMeals = await knex('meals').where('user_id', userId)
+
+        const totalMeals = allMeals.length;
+        console.log(`Total meals: ${totalMeals}`)
+
+        let includedCount = 0;
+        let notIncludedCount = 0;
+        let includedBestSequence = 0;
+        let temp_Sequence = 0;
+
+        allMeals.forEach(meal => {
+            
+            if(meal.included === 1 as unknown as boolean){
+                includedCount++;
+                temp_Sequence++;
+                if (temp_Sequence > includedBestSequence){
+                    includedBestSequence = temp_Sequence
+                }
+            }
+            else{
+                notIncludedCount++;
+                temp_Sequence = 0;
+            }
+        })
+
+        const metric = {
+            "Total Meals": `${totalMeals}`,
+            "Included": `${includedCount}`,
+            "Not included": `${notIncludedCount}`,
+            "Best included sequence": `${includedBestSequence}`
+        }
+        
+        return { metric }
+
     })
 
 }
