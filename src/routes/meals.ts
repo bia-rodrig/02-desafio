@@ -162,10 +162,10 @@ export async function mealsRoutes(app: FastifyInstance){
         })
 
         const metric = {
-            "Total Meals": `${totalMeals}`,
-            "Included": `${includedCount}`,
-            "Not included": `${notIncludedCount}`,
-            "Best included sequence": `${includedBestSequence}`
+            totalMeals: `${totalMeals}`,
+            included: `${includedCount}`,
+            notIncluded: `${notIncludedCount}`,
+            bestIncludedSequence: `${includedBestSequence}`
         }
         
         return { metric }
